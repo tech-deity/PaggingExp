@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.lifecycle.ViewModelProvider
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.techdeity.paggingexp.paging.LoaderAdapter
 import com.techdeity.paggingexp.paging.QuotePagingAdapter
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +26,10 @@ class MainActivity : AppCompatActivity() {
         quotesviewModel = ViewModelProvider(this).get(QuoteViewModel::class.java)
 
         rv.setHasFixedSize(true)
-        rv.adapter = adapter
+        rv.adapter = adapter.withLoadStateHeaderAndFooter(
+            header = LoaderAdapter(),
+            footer = LoaderAdapter()
+        )
 
         quotesviewModel.list.observe( this ,{
             adapter.submitData(lifecycle,it)
